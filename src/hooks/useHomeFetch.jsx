@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import API from '../API';
 
+import { isPersistedState } from '../helpers';
+
 const initialState = {
   page: 0,
   results: [],
@@ -44,7 +46,6 @@ const useHomeFetch = () => {
     fetchMovies(state.page + 1, searchTerm);
     setIsLoadingMore(false);
   }, [isLoadingMore, searchTerm, state.page]);
-
   return {
     state,
     loading,
