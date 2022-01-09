@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import API from '../API';
 
 const initialState = {
@@ -9,30 +9,51 @@ const initialState = {
 };
 
 const useHomeFetch = () => {
+  const [searchTerm, setSearchTerm] = useState('');
   const [state, setState] = useState(initialState);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   const fetchMovies = async (page, searchTerm = '') => {
     try {
-      setError(false);
       setLoading(true);
       const movies = await API.fetchMovies(searchTerm, page);
-      setState(movies);
+      setState((prev) => ({
+        ...movies,
+        results:
+          page > 1 ? [...prev.results, ...movies.results] : [...movies.results],
+      }));
+      setError(false);
     } catch (error) {
       setError(true);
+      setState(null);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchMovies(1);
-  }, []);
+    setState(initialState);
+    fetchMovies(1, searchTerm);
+  }, [searchTerm]);
 
-  console.log(state);
+  useEffect(() => {
+    if (!isLoadingMore) return;
 
-  return { state, loading, error };
+    fetchMovies(state.page + 1, searchTerm);
+    setIsLoadingMore(false);
+  }, [isLoadingMore, searchTerm, state.page]);
+
+  return {
+    state,
+    loading,
+    error,
+    searchTerm,
+    setSearchTerm,
+    isLoadingMore,
+    setIsLoadingMore,
+  };
 };
 
 export default useHomeFetch;

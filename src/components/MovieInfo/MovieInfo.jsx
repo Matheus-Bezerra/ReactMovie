@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from 'prop-types';
 
 import Thumb from '../Thumb/Thumb';
 
@@ -42,6 +43,10 @@ const MovieInfo = ({ movie }) => {
       </Content>
     </Wrapper>
   );
+};
+
+MovieInfo.propTypes = {
+  movie: propTypes.object,
 };
 
 export default MovieInfo;
