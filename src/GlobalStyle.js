@@ -44,14 +44,14 @@ export const GlobalStyle = createGlobalStyle`
     color: #1c1c1c;
     transition: all .6s;
     }
+    &.night {
+      background: #2D333B;
+    
+      .theme {
+        color: var(--white);
+      }
+    }
   }
 
-  &.night {
-    background: #2D333B;
-  
-    .theme {
-      color: var(--white);
-    }
 }
-
 `;
