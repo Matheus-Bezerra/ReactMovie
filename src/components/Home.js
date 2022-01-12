@@ -27,7 +27,7 @@ const Home = () => {
   if (error) return <div>come back again later ....</div>;
 
   return (
-    <>
+    <div className="theme" style={{ background: '#2D333B;' }}>
       {!searchTerm && state.results[random] ? (
         <HeroImage
           image={`${IMAGE_BASE_URL}${BACKDROP_SIZE}${state.results[random].backdrop_path}`}
@@ -36,7 +36,7 @@ const Home = () => {
         />
       ) : null}
       <SearchBar setSearchTerm={setSearchTerm} />
-      <Grid header={searchTerm ? 'Search Result' : 'Popular movies'}>
+      <Grid header={searchTerm ? 'Search Result' : 'Popular Movies'}>
         {state.results.map((movie) => (
           <Thumb
             key={movie.id}
@@ -54,7 +54,7 @@ const Home = () => {
       {state.page < state.total_pages && !loading && (
         <Button text="Load More" callback={() => setIsLoadingMore(true)} />
       )}
-    </>
+    </div>
   );
 };
 
